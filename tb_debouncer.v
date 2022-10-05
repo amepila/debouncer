@@ -11,9 +11,9 @@
 module tb_debouncer ();
 
 reg clk, rst, sw;	// Inputs
-wire one_shot;		// Outputs
+wire one_shot, led;		// Outputs
 
-debouncer UUT (.clk(clk), .nrst(rst), .sw(sw), .one_shot(one_shot));
+debouncer UUT (.clk(clk), .nrst(rst), .sw(sw), .one_shot(one_shot), .led(led));
 
 initial 
     begin
