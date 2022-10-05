@@ -12,7 +12,8 @@ module debouncer
 	input clk,
 	input nrst,			
 	input sw,			// Input swtich from board
-	output one_shot		// Output generated pulse
+	output one_shot,		// Output generated pulse
+	output led
 );
 
 wire w_end_delay, w_rst_out, w_rst;
@@ -22,7 +23,8 @@ assign w_rst = ~nrst;	// Assign to active-low reset
 control_debouncer	fsm (.clk(clk), .rst(w_rst), .sw(sw), .end_delay(w_end_delay),
 						.rst_out(w_rst_out), .one_shot(one_shot));
 						
-delayer #(.YY(10))	// Parameter to define the time to delay, 1,500,000 counts to reach 30ms
+delayer #(.YY(1500000))	// Parameter to define the time to delay, 1,500,000 counts to reach 30ms
 	delay_30ms (.clk(clk), .rst(w_rst_out), .en(1'b1), .equal(w_end_delay));
 	
+blink_reg #(.DW(1)) blink (.clk(clk), .rst(nrst), .en(one_shot), .led(led)); // Module only to show the debouncer
 endmodule
